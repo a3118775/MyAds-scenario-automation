@@ -127,7 +127,7 @@ test("on hold test", async ({ page }) => {
 
   // Using role + aria-label
   const toField = page.locator('div[aria-label="To"][contenteditable="true"]');
-  await toField.fill('ashlesha.diddibagil@bestbuy.com');
+  await toField.fill(users.mainUser.username);
   await page.waitForTimeout(2000);
 
   // Subject field
