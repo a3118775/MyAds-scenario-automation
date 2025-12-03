@@ -1,5 +1,6 @@
 
 # Playwright
+.encr.js
 .env
 node_modules/
 /test-results/
