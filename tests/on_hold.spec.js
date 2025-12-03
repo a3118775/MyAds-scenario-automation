@@ -2,13 +2,25 @@ const { test } = require('@playwright/test');
 const { LoginPage } = require('../pages/LoginPage');
 const { MyadsLoginPage } = require('../pages/LoginPage');
 const {EmailLoginPage} = require('../pages/LoginPage');
-const users = require('../config/cred_env');
+const path = require('path');
+const fs = require('fs');
+const Cryptr = require('cryptr');
+  const cryptr = new Cryptr('myTotallySecretKey3');
+require('dotenv').config();
+// const cryptr = new Cryptr(process.env.SECRET_KEY);
 
 test("on hold test", async ({ page }) => {
+
+
+  const email = cryptr.decrypt(process.env.MAIN_USER_USERNAME);
+  const password = cryptr.decrypt(process.env.USER_PASSWORD);
+  const aid = cryptr.decrypt(process.env.AID);
+  const secondaryEmail = cryptr.decrypt(process.env.AID_USERNAME);
+
   const loginPage = new LoginPage(page);
   await loginPage.goto();
-  await loginPage.enterEmail(users.mainUser.username);
-  await loginPage.enterEmail2(users.secondaryUser.username);
+  await loginPage.enterEmail(email);
+  await loginPage.enterEmail2(secondaryEmail);
 
   // Selecting seller details
   await page.getByText('Sellers Detail').click();
@@ -65,8 +77,8 @@ test("on hold test", async ({ page }) => {
   await myadsLoginPage.goto();
   await page.waitForTimeout(3000);
   await page.getByRole('button', { name: 'Login' }).click();
-  await myadsLoginPage.enterAid(users.aid);
-  await myadsLoginPage.enterPassword(users.mainUser.password);
+  await myadsLoginPage.enterAid(aid);
+  await myadsLoginPage.enterPassword(password);
   test.setTimeout(90000);
 
   // Navigate to User Management
@@ -76,6 +88,8 @@ test("on hold test", async ({ page }) => {
   await page.waitForTimeout(3000);
 
   console.log(`Found ${onHoldSellers.length} sellers on hold:`);
+
+  const allResults = [];
 
   // Step 2: Loop through each seller
   for (const seller of onHoldSellers) {
@@ -108,7 +122,7 @@ test("on hold test", async ({ page }) => {
           const cells = Array.from(row.querySelectorAll('td'));
           const email = cells[3]?.innerText?.trim(); // 4th column
           const role = cells[4]?.innerText?.trim();  // 5th column
-          const seller = cells[2]?.innerText?.trim(); // adjust index if seller name is in another column
+          const seller = cells[6]?.innerText?.trim(); // adjust index if seller name is in another column
           if (role?.includes('Billing Admin') && email) {
             results.push({ seller, email });
           }
@@ -117,7 +131,22 @@ test("on hold test", async ({ page }) => {
       }
     );
     console.log('Billing Admin Emails:', sellersWithEmails);
+    allResults.push(...sellersWithEmails);
   }
+
+  // Format date as YYYY-MM-DD
+  const date = new Date();
+  const formattedDate = date.toISOString().split('T')[0]; // YYYY-MM-DD
+  let fileName = `email_sent_${formattedDate}.json`;
+  const folderpath = path.join('./reports/');
+  if (!fs.existsSync(folderpath)){
+    fs.mkdirSync(folderpath);
+  }
+
+  fileName = path.join(folderpath, fileName);
+  fs.writeFileSync(fileName, JSON.stringify(allResults, null, 2));
+  console.log(`Final report saved to ${fileName}`);
+
   const EmailLogin = new EmailLoginPage(page);
   await EmailLogin.goto();
 
@@ -127,7 +156,7 @@ test("on hold test", async ({ page }) => {
 
   // Using role + aria-label
   const toField = page.locator('div[aria-label="To"][contenteditable="true"]');
-  await toField.fill(users.mainUser.username);
+  await toField.fill("ashlesha.diddibagil@bestbuy.com");
   await page.waitForTimeout(2000);
 
   // Subject field
@@ -154,4 +183,5 @@ test("on hold test", async ({ page }) => {
   const sendButton = page.getByRole('button', { name: 'Send', exact: true });
   await sendButton.click();
   await page.waitForTimeout(5000);
+  console.log('Email sent successfully.');
 });

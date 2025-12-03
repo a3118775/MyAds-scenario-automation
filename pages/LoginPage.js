@@ -14,19 +14,18 @@ class LoginPage {
 
   async goto() {
     await this.page.goto(links.loockerPage);
-    console.log('Title verified');
+    console.log('Logged in to Loocker Dashboard');
   }
 
   async enterEmail(email) {
     await this.page.waitForSelector(this.emailInput, { state: 'visible', timeout: 10000 });
-    await this.page.locator(this.emailInput).fill(email);
+    await this.page.locator(this.emailInput).fill(email); 
     await this.nextButton.click();
-     // Pause so tester can solve CAPTCHA manually
     await this.page.pause();
     await this.nextButton.click();
-    // await this.nextButton.click();
-    await this.page.waitForTimeout(3000);
+    await this.page.waitForTimeout(5000);
   }
+
   async enterEmail2(email) {
     await this.page.waitForSelector(this.emailInput, { state: 'visible', timeout: 10000 });
     await this.page.locator(this.emailInput).fill(email);
@@ -43,18 +42,15 @@ class MyadsLoginPage {
     this.login = page.getByRole('button', { name: 'Login' });
     this.submitButton = page.getByRole('button', { name: 'Submit' });
   }
-
   async goto() {
     await this.page.goto(links.myadsPage);
-    console.log('Title verified');
+    console.log('Logged in to Myads Dashboard');
     
-  }
-
-  async enterAid(aid) {
+  } 
+   async enterAid(aid) {
     await this.page.waitForSelector(this.aid, { state: 'visible', timeout: 10000 });
     await this.page.locator(this.aid).fill(aid);
   }
-
   async enterPassword(password) {
     await this.page.waitForSelector(this.password, { state: 'visible', timeout: 10000 });
     await this.page.locator(this.password).fill(password);
@@ -71,9 +67,8 @@ class EmailLoginPage {
   }
   async goto() {
     await this.page.goto(links.outlook);
-    console.log('Title verified');
+    console.log('Logged in to Outlook');
   }
-
   async enterEmail(email) {
     await this.page.locator(this.emailInput).fill(email);
     await this.nextButton.click();
@@ -81,4 +76,27 @@ class EmailLoginPage {
   }
 }
 
-module.exports = { LoginPage, MyadsLoginPage, EmailLoginPage };
+class Jira {
+  constructor(page) {
+    this.page = page;
+    this.aid = 'input[type="text"]';
+    this.email = 'input[type="email"]';
+    this.login = page.getByRole('button', { name: 'Login' });
+  }
+  async goto() {
+    await this.page.goto(links.jiraDashboard);
+    console.log('Logged in to Jira Dashboard');
+  }
+  async enterAid(aid) {
+    await this.page.waitForSelector(this.aid, { state: 'visible', timeout: 10000 });
+    await this.page.locator(this.aid).fill(aid);
+    await this.page.getByRole('button', { name: 'Next' }).click();
+    await this.page.waitForTimeout(3000);
+  }
+  async enterEmail(email) {
+    await this.page.locator(this.email).fill(email);
+    await this.page.getByRole('button', { name: 'Next' }).click();
+    await this.page.waitForTimeout(3000);
+  }
+}
+module.exports = { LoginPage, MyadsLoginPage, EmailLoginPage, Jira };
