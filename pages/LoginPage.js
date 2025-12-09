@@ -1,4 +1,4 @@
-const { expect } = require('@playwright/test');
+const { expect, default: test } = require('@playwright/test');
 const fs = require('fs');
 const path = require('path');
 const links = JSON.parse(
@@ -85,10 +85,11 @@ class Jira {
   }
   async goto() {
     await this.page.goto(links.jiraDashboard);
+    await this.page.getByRole('link', { name: 'log in', exact: true }).click();
     console.log('Logged in to Jira Dashboard');
   }
   async enterAid(aid) {
-    await this.page.waitForSelector(this.aid, { state: 'visible', timeout: 10000 });
+    await this.page.waitForSelector(this.aid, { state: 'visible', timeout: 110000 });
     await this.page.locator(this.aid).fill(aid);
     await this.page.getByRole('button', { name: 'Next' }).click();
     await this.page.waitForTimeout(3000);
@@ -96,7 +97,8 @@ class Jira {
   async enterEmail(email) {
     await this.page.locator(this.email).fill(email);
     await this.page.getByRole('button', { name: 'Next' }).click();
-    await this.page.waitForTimeout(3000);
+    await this.page.waitForTimeout(5000);
   }
 }
+
 module.exports = { LoginPage, MyadsLoginPage, EmailLoginPage, Jira };

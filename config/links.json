@@ -2,5 +2,5 @@
   "loockerPage": "https://accounts.google.com/v3/signin/identifier?continue=https%3A%2F%2Flookerstudio.google.com%2Freporting%2Fb459cb45-8676-461e-8623-67e2804a0dac%2Fpage%2Fp_l18a7273ud%3Fs%3DvnhqO5oOa04&flowName=GlifWebSignIn&flowEntry=ServiceLogin",
   "myadsPage": "https://myads.bestbuy.com/login",
   "outlook": "https://outlook.office.com/mail/MyAdsSupport@bestbuy.com/",
-  "jiraDashboard": "https://fed.us.bestbuy.com/idp/SSO.saml2?SAMLRequest=fZFdT8IwFIb/ytL7rtvYABsgQTFKgoyw6YU3pt0q1Gzt7GmJ/nvLV4QbLk/PeZ%2B8TzoC1jYdnTq7VWvx7QTY4KdtFNDDYoycUVQzkEAVawVQW9Fi%2BrKgSRjRzmirK92gi8jtBAMQxkqtUDCfjVG%2BfFzkT/PlR8IHPGbZEPeGcYrTrB5iNogEjvq8n2b8jg/6NQrehAGfHSOP8gAAJ%2BYKLFPWP0VJhuMER3EZx7SX0Sx9R8HM%2B0jF7CG1tbYDSsinqEMHIfc77n7DSrdE1h0pijzcGyQoWJ3E7qWqpdrcduLHI6DPZbnCq7woUTA9ez5oBa4VphBmJyvxul789/iShoVW6%2Ba6S9e4jVRAPGHXCEv2naoTBk1G%2B5Ee3M3kNmlELm%2BP0/VXT/4A&RelayState=5895ce72-79de-47f1-8b2e-fd72fca1ea66"
+  "jiraDashboard": "https://jira.tools.bestbuy.com/secure/Dashboard.jspa?selectPageId=58795"
 }

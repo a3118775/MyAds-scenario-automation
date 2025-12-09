@@ -10,8 +10,6 @@ require('dotenv').config();
 // const cryptr = new Cryptr(process.env.SECRET_KEY);
 
 test("on hold test", async ({ page }) => {
-
-
   const email = cryptr.decrypt(process.env.MAIN_USER_USERNAME);
   const password = cryptr.decrypt(process.env.USER_PASSWORD);
   const aid = cryptr.decrypt(process.env.AID);
